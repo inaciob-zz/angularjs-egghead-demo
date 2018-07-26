@@ -1,31 +1,40 @@
-angular.module('Eggly', [
-])
-.controller('MainCtrl', function($scope) {
-	// TODO: Update so that $scope references are removed, use cleaner vm syntax
-	$scope.categories = [
-		{"id": 0, "name": "Development"},
-		{"id": 1, "name": "Design"},
-		{"id": 2, "name": "Humour"}
-	];
+(function() {
+	'use strict';
 
-	$scope.bookmarks = [
-		{"id": 0, "title": "AngularJS", "url": "http://angularjs.org", "category": "Development"},
-		{"id": 1, "title": "Egghead", "url": "https://egghead.io", "category": "Development"},
-		{"id": 2, "title": "A List Apart", "url": "http://alistapart.com", "category": "Design"},
-		{"id": 3, "title": "Wimp", "url": "http://wimp.com", "category": "Humour"},
-		{"id": 4, "title": "Dump", "url": "http://dump.com", "category": "Humour"}
-	];
+	angular.module('Eggly', [
+	])
+	.controller('MainCtrl', MainCtrl);
 
-	$scope.currentCategory = null;
+	function MainCtrl() {
+		var vm = this;
 
-	var setCurrentCategory = (category) => {
-		$scope.currentCategory = category;
-	};
+		// Set variables
+		vm.categories = [
+			{"id": 0, "name": "Development"},
+			{"id": 1, "name": "Design"},
+			{"id": 2, "name": "Humour"}
+		];
 
-	var isCurrentCategory = (category) => {
-		return $scope.currentCategory !== null && category.name === $scope.currentCategory.name;
+		vm.bookmarks = [
+			{"id": 0, "title": "AngularJS", "url": "http://angularjs.org", "category": "Development"},
+			{"id": 1, "title": "Egghead", "url": "https://egghead.io", "category": "Development"},
+			{"id": 2, "title": "A List Apart", "url": "http://alistapart.com", "category": "Design"},
+			{"id": 3, "title": "Wimp", "url": "http://wimp.com", "category": "Humour"},
+			{"id": 4, "title": "Dump", "url": "http://dump.com", "category": "Humour"}
+		];
+
+		vm.currentCategory = null;
+
+
+		var setCurrentCategory = (category) => {
+			vm.currentCategory = category;
+		};
+
+		var isCurrentCategory = (category) => {
+			return vm.currentCategory !== null && category.name === vm.currentCategory.name;
+		}
+
+		vm.setCurrentCategory = setCurrentCategory;
+		vm.isCurrentCategory = isCurrentCategory;
 	}
-
-	$scope.setCurrentCategory = setCurrentCategory;
-	$scope.isCurrentCategory = isCurrentCategory;
-});
+})();
