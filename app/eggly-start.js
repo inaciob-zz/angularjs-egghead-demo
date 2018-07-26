@@ -24,14 +24,52 @@
 		];
 
 		vm.currentCategory = null;
+		// Create and Edit states
+		vm.isCreating = false;
+		vm.isEditing = false;
+		vm.startCreating = startCreating;
+		vm.cancelCreating = cancelCreating;
+		vm.startEditing = startEditing;
+		vm.cancelEditing = cancelEditing;
+		vm.shouldShowCreating = shouldShowCreating;
+		vm.shouldShowEditing = shouldShowEditing;
 
 
 		var setCurrentCategory = (category) => {
 			vm.currentCategory = category;
+
+			cancelCreating();
+			cancelEditing();
 		};
 
 		var isCurrentCategory = (category) => {
 			return vm.currentCategory !== null && category.name === vm.currentCategory.name;
+		}
+
+		function startCreating() {
+			vm.isCreating = true;
+			vm.isEditing = false;
+		}
+
+		function cancelCreating() {
+			vm.isCreating = false;
+		}
+
+		function startEditing() {
+			vm.isCreating = false;
+			vm.isEditing = true;
+		}
+
+		function cancelEditing() {
+			vm.isEditing = false;
+		}
+
+		function shouldShowCreating() {
+			return vm.currentCategory && !vm.isEditing;
+		}
+
+		function shouldShowEditing() {
+			return vm.isEditing && !vm.isCreating;
 		}
 
 		vm.setCurrentCategory = setCurrentCategory;

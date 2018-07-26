@@ -4,10 +4,46 @@
 }
 /* End utility classes */
 
+/* Start categories */
+.nav-container {
+	background-color: #003d7f;
+	min-height: 100vh;
+}
+
+.logo {
+	margin-top: 20px;
+}
+
+.category-name {
+	color: #fff;
+	font-size: 1.2em;
+	padding-left: 0px;
+}
+
+.category-name:first-of-type {
+	padding-top: 18px;
+}
+
+.category-name:hover,
+.category-name.active {
+	color: #4ca3ff;
+}
+/* End categories */
+
+/* Start bookmarks */
 .bookmark-link {
-	display: block;
+	display: inline-block;
 	padding: 10px 4px;
 }
+
+.close.float-right {
+	padding-top: 8px;
+}
+
+.bookmark-details {
+	padding: 14px 8px;
+}
+/* End bookmarks */
 
 /* Some easily visible identifier for 'active' class */
 .nav-link.active {

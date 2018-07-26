@@ -7,12 +7,13 @@
 
 	<!-- Bootstrap CDN -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="app/css/styles.css">
 </head>
 <body ng-controller="MainCtrl as mainCtrl">
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-3" ng-include="'app/categories/categories.html'"></div>
+			<div class="nav-container col-md-3" ng-include="'app/categories/categories.html'"></div>
 			<div class="pad-top-20 col-md-9" ng-include="'app/bookmarks/bookmarks.html'"></div>
 		</div>
 	</div>
