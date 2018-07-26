@@ -1,3 +1,27 @@
 <div ng-repeat="bookmark in mainCtrl.bookmarks | filter: {category: mainCtrl.currentCategory.name}">
+	<button type="button" ng-click="mainCtrl.startEditing()" class="btn btn-link">
+		<span class="fa fa-pencil"></span>
+	</button>
+
 	<a class="bookmark-link" href="{{ bookmark.url }}" target="_blank">{{ bookmark.title }}</a>
+	
+	<button type="button" class="close float-right" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<hr/>
+<!-- Create bookmark -->
+<div ng-if="mainCtrl.shouldShowCreating()">
+	<button type="button" ng-click="mainCtrl.startCreating()" class="btn btn-primary">
+		Create Bookmark
+	</button>
+	<div ng-if="mainCtrl.isCreating" class="bookmark-details">
+		Create a bookmark!
+		<button type="button" ng-click="mainCtrl.cancelCreating()" class="btn btn-secondary float-right">Cancel</button>
+	</div>
+</div>
+<!-- Edit bookmark -->
+<div ng-if="mainCtrl.shouldShowEditing()" class="bookmark-details">
+	Edit a bookmark!
+	<button type="button" ng-click="mainCtrl.cancelEditing()" class="btn btn-secondary float-right">Cancel</button>
 </div>
