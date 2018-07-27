@@ -24,6 +24,7 @@
 		];
 
 		vm.currentCategory = null;
+		vm.editedBookmark = null;
 		// Create and Edit states
 		vm.isCreating = false;
 		vm.isEditing = false;
@@ -33,6 +34,12 @@
 		vm.cancelEditing = cancelEditing;
 		vm.shouldShowCreating = shouldShowCreating;
 		vm.shouldShowEditing = shouldShowEditing;
+		vm.createBookmark = createBookmark;
+		vm.resetCreateForm = resetCreateForm;
+		vm.setEditedBookmark = setEditedBookmark;
+		vm.updateBookmark = updateBookmark;
+		vm.isSelectedBookmark = isSelectedBookmark;
+		vm.deleteBookmark = deleteBookmark;
 
 
 		var setCurrentCategory = (category) => {
@@ -49,6 +56,8 @@
 		function startCreating() {
 			vm.isCreating = true;
 			vm.isEditing = false;
+
+			resetCreateForm();
 		}
 
 		function cancelCreating() {
@@ -74,5 +83,49 @@
 
 		vm.setCurrentCategory = setCurrentCategory;
 		vm.isCurrentCategory = isCurrentCategory;
+
+		/**********/
+		/* CRUD section */
+		/**********/
+		function resetCreateForm() {
+			vm.newBookmark = {
+				title: '',
+				url: '',
+				category: vm.currentCategory.name
+			}
+		}
+
+		function createBookmark(bookmark) {
+			bookmark.id = vm.bookmarks.length;
+			bookmark.category = vm.currentCategory.name;
+			vm.bookmarks.push(bookmark);
+
+			resetCreateForm();
+		}
+
+		function setEditedBookmark(bookmark) {
+			vm.editedBookmark = angular.copy(bookmark);
+		}
+
+		function updateBookmark(bookmark) {
+			// TODO: Remove tutorial dependency on Lodash, preferably use vanilla JS
+			var index = _.findIndex(vm.bookmarks, function(b) {
+				return b.id === bookmark.id;
+			});
+			vm.bookmarks[index] = bookmark;
+
+			vm.editedBookmark = null;
+			vm.isEditing = false;
+		}
+
+		function isSelectedBookmark(bookmarkId) {
+			return vm.editedBookmark !== null && vm.editedBookmark.id === bookmarkId;
+		}
+
+		function deleteBookmark(bookmark) {
+			_.remove(vm.bookmarks, function(b) {
+				return b.id === bookmark.id;
+			});
+		}
 	}
 })();
