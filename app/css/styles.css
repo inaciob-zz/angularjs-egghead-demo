@@ -1,4 +1,8 @@
 /* Start utility classes */
+.pad-top-10 {
+	padding-top: 10px;
+}
+
 .pad-top-20 {
 	padding-top: 20px;
 }
@@ -48,4 +52,8 @@
 /* Some easily visible identifier for 'active' class */
 .nav-link.active {
 	text-decoration: underline;
+}
+
+div.active {
+	font-weight: 800;
 }
