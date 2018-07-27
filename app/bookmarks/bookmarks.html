@@ -1,11 +1,11 @@
-<div ng-repeat="bookmark in mainCtrl.bookmarks | filter: {category: mainCtrl.currentCategory.name}">
-	<button type="button" ng-click="mainCtrl.startEditing()" class="btn btn-link">
+<div ng-class="{'active': mainCtrl.isSelectedBookmark(bookmark.id)}" ng-repeat="bookmark in mainCtrl.bookmarks | filter: {category: mainCtrl.currentCategory.name}">
+	<button type="button" ng-click="mainCtrl.setEditedBookmark(bookmark); mainCtrl.startEditing()" class="btn btn-link">
 		<span class="fa fa-pencil"></span>
 	</button>
 
 	<a class="bookmark-link" href="{{ bookmark.url }}" target="_blank">{{ bookmark.title }}</a>
 	
-	<button type="button" class="close float-right" aria-label="Close">
+	<button type="button" class="close float-right" ng-click="mainCtrl.deleteBookmark(bookmark)" aria-label="Close">
 		<span aria-hidden="true">&times;</span>
 	</button>
 </div>
@@ -15,13 +15,32 @@
 	<button type="button" ng-click="mainCtrl.startCreating()" class="btn btn-primary">
 		Create Bookmark
 	</button>
-	<div ng-if="mainCtrl.isCreating" class="bookmark-details">
-		Create a bookmark!
-		<button type="button" ng-click="mainCtrl.cancelCreating()" class="btn btn-secondary float-right">Cancel</button>
-	</div>
+	<form ng-show="mainCtrl.isCreating" role="form" class="pad-top-20 create-form" ng-submit="mainCtrl.createBookmark(newBookmark)" novalidate>
+		<div class="form-group">
+			<label for="new-bookmark-title">Bookmark Title</label>
+			<input type="text" class="form-control" id="new-bookmark-title" ng-model="newBookmark.title" placeholder="Enter Bookmark Title">
+		</div>
+		<div class="form-group">
+			<label for="new-bookmark-url">Bookmark URL</label>
+			<input type="text" class="form-control" id="new-bookmark-url" ng-model="newBookmark.url" placeholder="Enter Bookmark URL">
+		</div>
+		<button type="submit" class="btn btn-success">Create</button>
+		<button type="button" class="btn btn-secondary float-right" ng-click="mainCtrl.cancelCreating()">Cancel</button>
+	</form>
 </div>
 <!-- Edit bookmark -->
 <div ng-if="mainCtrl.shouldShowEditing()" class="bookmark-details">
-	Edit a bookmark!
-	<button type="button" ng-click="mainCtrl.cancelEditing()" class="btn btn-secondary float-right">Cancel</button>
+	<h2>Editing {{ mainCtrl.editedBookmark.title }}</h2>
+	<form class="pad-top-10 edit-form" role="form" ng-submit="mainCtrl.updateBookmark(mainCtrl.editedBookmark)" novalidate>
+		<div class="form-group">
+			<label for="edited-bookmark-title">Bookmark Title</label>
+			<input type="text" class="form-control" id="edited-bookmark-title" ng-model="mainCtrl.editedBookmark.title" placeholder="Bookmark Title">
+		</div>
+		<div class="form-group">
+			<label for="edited-bookmark-url">Bookmark URL</label>
+			<input type="text" class="form-control" id="edited-bookmark-url" ng-model="mainCtrl.editedBookmark.url" placeholder="Bookmark URL">
+		</div>
+		<button type="submit" class="btn btn-success">Save</button>
+		<button type="button" class="btn btn-secondary float-right" ng-click="mainCtrl.cancelEditing()">Cancel</button>
+	</form>
 </div>
