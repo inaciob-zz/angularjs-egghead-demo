@@ -20,15 +20,27 @@
 	
 	<!-- NOTE: Using Lodash v2.4.1 to match tutorial, and because latest version no longer supports _.findIndex() -->
 	<script src="https://www.gstatic.com/firebasejs/5.4.0/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-firestore.js"></script>
 	<script src="app/config.json"></script>
 	<script>
-	  // Initialize Firebase
-	  firebase.initializeApp(config);
+		// Initialize Firebase
+	  	firebase.initializeApp(config);
+
+	  	// TODO: Clean this up
+	  	var database = firebase.firestore();
+	  	const firestore = database;
+  		const settings = {timestampsInSnapshots: true};
+  		firestore.settings(settings);
+
+	  	database.collection("bookmarks").get().then((querySnapshot) => {
+    		querySnapshot.forEach((doc) => {
+        		console.log(doc.id, " => ",  doc.data());
+    		});
+		});
 	</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script>
-	<!-- AngularFire -->
-	<script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
 	<script src="app/eggly-start.js"></script>
 </body>
 </html>
