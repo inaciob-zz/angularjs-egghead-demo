@@ -8,20 +8,21 @@
 	function MainCtrl() {
 		var vm = this;
 
+		// TODO: Update so that firebase values are read in
 		// Set variables
-		vm.categories = [
-			{"id": 0, "name": "Development"},
-			{"id": 1, "name": "Design"},
-			{"id": 2, "name": "Humour"}
-		];
+		// vm.categories = [
+		// 	{"id": 0, "name": "Development"},
+		// 	{"id": 1, "name": "Design"},
+		// 	{"id": 2, "name": "Humour"}
+		// ];
 
-		vm.bookmarks = [
-			{"id": 0, "title": "AngularJS", "url": "http://angularjs.org", "category": "Development"},
-			{"id": 1, "title": "Egghead", "url": "https://egghead.io", "category": "Development"},
-			{"id": 2, "title": "A List Apart", "url": "http://alistapart.com", "category": "Design"},
-			{"id": 3, "title": "Wimp", "url": "http://wimp.com", "category": "Humour"},
-			{"id": 4, "title": "Dump", "url": "http://dump.com", "category": "Humour"}
-		];
+		// vm.bookmarks = [
+		// 	{"id": 0, "title": "AngularJS", "url": "http://angularjs.org", "category": "Development"},
+		// 	{"id": 1, "title": "Egghead", "url": "https://egghead.io", "category": "Development"},
+		// 	{"id": 2, "title": "A List Apart", "url": "http://alistapart.com", "category": "Design"},
+		// 	{"id": 3, "title": "Wimp", "url": "http://wimp.com", "category": "Humour"},
+		// 	{"id": 4, "title": "Dump", "url": "http://dump.com", "category": "Humour"}
+		// ];
 
 		vm.currentCategory = null;
 		vm.editedBookmark = null;
