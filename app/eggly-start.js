@@ -3,27 +3,18 @@
 
 	angular.module('Eggly', [
 	])
-	.controller('MainCtrl', MainCtrl);
-
-	function MainCtrl() {
+	.controller('MainCtrl', function ($scope) {
 		var vm = this;
 
-		// TODO: Update so that firebase values are read in
 		// Set variables
-		// vm.categories = [
-		// 	{"id": 0, "name": "Development"},
-		// 	{"id": 1, "name": "Design"},
-		// 	{"id": 2, "name": "Humour"}
-		// ];
+		var database = firebase.firestore();
+	  	const firestore = database;
+  		const settings = {timestampsInSnapshots: true};
+  		firestore.settings(settings);
 
-		// vm.bookmarks = [
-		// 	{"id": 0, "title": "AngularJS", "url": "http://angularjs.org", "category": "Development"},
-		// 	{"id": 1, "title": "Egghead", "url": "https://egghead.io", "category": "Development"},
-		// 	{"id": 2, "title": "A List Apart", "url": "http://alistapart.com", "category": "Design"},
-		// 	{"id": 3, "title": "Wimp", "url": "http://wimp.com", "category": "Humour"},
-		// 	{"id": 4, "title": "Dump", "url": "http://dump.com", "category": "Humour"}
-		// ];
-
+		vm.init = init;
+		vm.categories = [];
+		vm.bookmarks = [];
 		vm.currentCategory = null;
 		vm.editedBookmark = null;
 		// Create and Edit states
@@ -42,6 +33,23 @@
 		vm.isSelectedBookmark = isSelectedBookmark;
 		vm.deleteBookmark = deleteBookmark;
 
+		function init() {
+			// Read in data from firebase for specified collections
+			var collections = ["categories", "bookmarks"];
+
+			angular.forEach(collections, function(key) {
+				database.collection(key).get().then((querySnapshot) => {
+					querySnapshot.forEach((doc) => {
+        				vm[key].push(doc.data());
+    				});
+					
+					// This exists due to changes from firebase occuring outside of angular which are not automatically updated in view
+					// TODO: Clean this up so that $scope is not used
+					$scope.$apply();
+				});
+			});
+		}
+		init();
 
 		var setCurrentCategory = (category) => {
 			vm.currentCategory = category;
@@ -127,6 +135,6 @@
 			_.remove(vm.bookmarks, function(b) {
 				return b.id === bookmark.id;
 			});
-		}
-	}
+		}			
+	});
 })();
