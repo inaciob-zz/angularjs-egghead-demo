@@ -1,7 +1,8 @@
 (function() {
 	'use strict';
 
-	angular.module('Eggly', ['ngRoute'])
+	angular.module('Eggly', [
+	])
 	.controller('MainCtrl', function ($scope, $timeout, $window) {
 		var vm = this;
 
