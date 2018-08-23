@@ -1,9 +1,8 @@
 (function() {
 	'use strict';
 
-	angular.module('Eggly', [
-	])
-	.controller('MainCtrl', function ($scope) {
+	angular.module('Eggly', ['ngRoute'])
+	.controller('MainCtrl', function ($scope, $timeout, $window) {
 		var vm = this;
 
 		// Set variables
@@ -32,6 +31,7 @@
 		vm.updateBookmark = updateBookmark;
 		vm.isSelectedBookmark = isSelectedBookmark;
 		vm.deleteBookmark = deleteBookmark;
+		vm.reloadChanges = reloadChanges;
 
 		function init() {
 			// Read in data from firebase for specified collections
@@ -93,6 +93,13 @@
 		vm.setCurrentCategory = setCurrentCategory;
 		vm.isCurrentCategory = isCurrentCategory;
 
+		// TODO: Remove reloads to see changes triggered outside of Angular
+		function reloadChanges() {
+			$timeout(function(){ 
+		    	$window.location.reload();
+			});
+		}
+
 		/**********/
 		/* CRUD section */
 		/**********/
@@ -113,6 +120,7 @@
 			})
 			.then(function() {
 			    console.log("Document successfully written!");
+			    reloadChanges();
 			})
 			.catch(function(error) {
 			    console.error("Error writing document: ", error);
@@ -140,9 +148,14 @@
 			return vm.editedBookmark !== null && vm.editedBookmark.id === bookmarkId;
 		}
 
-		function deleteBookmark(bookmark) {
-			_.remove(vm.bookmarks, function(b) {
-				return b.id === bookmark.id;
+		function deleteBookmark() {
+			let prevDocId = database._firestoreClient.localStore.targetIdGenerator.previousId;
+
+			database.collection("bookmarks").doc("" + (prevDocId + 1) + "").delete().then(function() {
+			    console.log("Document successfully deleted!");
+			    reloadChanges();
+			}).catch(function(error) {
+			    console.error("Error removing document: ", error);
 			});
 		}			
 	});
