@@ -20,19 +20,20 @@
 		// Create and Edit states
 		vm.isCreating = false;
 		vm.isEditing = false;
+		vm.clearEditStyles = clearEditStyles;
 		vm.startCreating = startCreating;
 		vm.cancelCreating = cancelCreating;
 		vm.startEditing = startEditing;
 		vm.cancelEditing = cancelEditing;
 		vm.shouldShowCreating = shouldShowCreating;
 		vm.shouldShowEditing = shouldShowEditing;
-		vm.createBookmark = createBookmark;
+		vm.reloadChanges = reloadChanges;
 		vm.resetCreateForm = resetCreateForm;
+		vm.createBookmark = createBookmark;
 		vm.setEditedBookmark = setEditedBookmark;
 		vm.updateBookmark = updateBookmark;
 		vm.isSelectedBookmark = isSelectedBookmark;
 		vm.deleteBookmark = deleteBookmark;
-		vm.reloadChanges = reloadChanges;
 
 		function init() {
 			// Read in data from firebase for specified collections
@@ -55,12 +56,21 @@
 		var setCurrentCategory = (category) => {
 			vm.currentCategory = category;
 
+			clearEditStyles();
 			cancelCreating();
 			cancelEditing();
 		};
 
 		var isCurrentCategory = (category) => {
 			return vm.currentCategory !== null && category.name === vm.currentCategory.name;
+		}
+
+		function clearEditStyles() {
+			vm.editedBookmark = null;
+			var bookmarkContainers = document.querySelectorAll('.bookmark');
+			for (var i = 0; i < bookmarkContainers.length; i++) {
+				bookmarkContainers[i].classList.remove('active');
+			}
 		}
 
 		function startCreating() {
@@ -81,6 +91,7 @@
 
 		function cancelEditing() {
 			vm.isEditing = false;
+			clearEditStyles();
 		}
 
 		function shouldShowCreating() {
@@ -137,7 +148,7 @@
 		function updateBookmark(bookmark) {
 			let currDocId = database._firestoreClient.localStore.targetIdGenerator.previousId + 1;
 			var docReference = database.collection("bookmarks").doc("" + currDocId + "");
-			
+
 			return docReference.update({
 			    title: bookmark.title,
 				url: bookmark.url
@@ -155,8 +166,8 @@
 			vm.isEditing = false;
 		}
 
-		function isSelectedBookmark(bookmarkId) {
-			return vm.editedBookmark !== null && vm.editedBookmark.id === bookmarkId;
+		function isSelectedBookmark(bookmarkTitle) {
+			return vm.editedBookmark !== null && vm.editedBookmark.title === bookmarkTitle;
 		}
 
 		function deleteBookmark() {
