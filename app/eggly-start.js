@@ -105,9 +105,18 @@
 		}
 
 		function createBookmark(bookmark) {
-			bookmark.id = vm.bookmarks.length;
-			bookmark.category = vm.currentCategory.name;
-			vm.bookmarks.push(bookmark);
+			// NOTE: Custom document ID is treated as a string here due to firebase not accepting plain integers
+			database.collection("bookmarks").doc("" + vm.bookmarks.length + "").set({
+				category: vm.currentCategory.name,
+				title: bookmark.title,
+				url: bookmark.url
+			})
+			.then(function() {
+			    console.log("Document successfully written!");
+			})
+			.catch(function(error) {
+			    console.error("Error writing document: ", error);
+			});
 
 			resetCreateForm();
 		}
