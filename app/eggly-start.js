@@ -135,11 +135,21 @@
 		}
 
 		function updateBookmark(bookmark) {
-			// TODO: Remove tutorial dependency on Lodash, preferably use vanilla JS
-			var index = _.findIndex(vm.bookmarks, function(b) {
-				return b.id === bookmark.id;
+			let currDocId = database._firestoreClient.localStore.targetIdGenerator.previousId + 1;
+			var docReference = database.collection("bookmarks").doc("" + currDocId + "");
+			
+			return docReference.update({
+			    title: bookmark.title,
+				url: bookmark.url
+			})
+			.then(function() {
+			    console.log("Document successfully updated!");
+			    reloadChanges();
+			})
+			.catch(function(error) {
+			    // The document probably doesn't exist.
+			    console.error("Error updating document: ", error);
 			});
-			vm.bookmarks[index] = bookmark;
 
 			vm.editedBookmark = null;
 			vm.isEditing = false;
