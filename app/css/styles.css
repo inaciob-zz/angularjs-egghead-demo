@@ -6,6 +6,15 @@
 .pad-top-20 {
 	padding-top: 20px;
 }
+
+.error {
+	color: #dc3545;
+	padding-top: 0.5rem;
+}
+
+.error:not(:first-of-type) {
+	padding-top: 0;
+}
 /* End utility classes */
 
 /* Start categories */
@@ -48,6 +57,13 @@
 	padding: 14px 8px;
 }
 /* End bookmarks */
+
+/* Start form validation */
+.form-control.ng-invalid.ng-touched:focus {
+	border-color: #dc3545;
+	box-shadow: none;
+}
+/* End form validation */
 
 /* Some easily visible identifier for 'active' class */
 .nav-link.active {

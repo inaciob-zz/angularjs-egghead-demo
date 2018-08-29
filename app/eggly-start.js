@@ -12,6 +12,7 @@
   		const settings = {timestampsInSnapshots: true};
   		firestore.settings(settings);
 
+  		vm.formInvalid = false;
 		vm.init = init;
 		vm.categories = [];
 		vm.bookmarks = [];
@@ -82,6 +83,7 @@
 
 		function cancelCreating() {
 			vm.isCreating = false;
+			vm.formInvalid = false;
 		}
 
 		function startEditing() {
@@ -124,19 +126,33 @@
 		}
 
 		function createBookmark(bookmark) {
-			// NOTE: Custom document ID is treated as a string here due to firebase not accepting plain integers
-			database.collection("bookmarks").doc("" + vm.bookmarks.length + "").set({
-				category: vm.currentCategory.name,
-				title: bookmark.title,
-				url: bookmark.url
-			})
-			.then(function() {
-			    console.log("Document successfully written!");
-			    reloadChanges();
-			})
-			.catch(function(error) {
-			    console.error("Error writing document: ", error);
-			});
+			if(vm.currentCategory.name && (!angular.isUndefined(bookmark))) {
+				if(bookmark.title && bookmark.url) {
+					// NOTE: Custom document ID is treated as a string here due to firebase not accepting plain integers
+					database.collection("bookmarks").doc("" + vm.bookmarks.length + "").set({
+						category: vm.currentCategory.name,
+						title: bookmark.title,
+						url: bookmark.url
+					})
+					.then(function() {
+					    console.log("Document successfully written!");
+					    reloadChanges();
+					})
+					.catch(function(error) {
+					    console.error("Error writing document: ", error);
+					});
+				}
+				else {
+					if(!bookmark.title || !bookmark.url) {
+						vm.formInvalid = true;
+						return vm.formInvalid;
+					}
+				}
+			}
+			else {
+				vm.formInvalid = true;
+				return vm.formInvalid;
+			}
 
 			resetCreateForm();
 		}
