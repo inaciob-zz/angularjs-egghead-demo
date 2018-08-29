@@ -15,14 +15,17 @@
 	<button type="button" ng-click="mainCtrl.startCreating()" class="btn btn-primary">
 		Create Bookmark
 	</button>
-	<form ng-show="mainCtrl.isCreating" role="form" class="pad-top-20 create-form" ng-submit="mainCtrl.createBookmark(newBookmark)" novalidate>
+	<form ng-show="mainCtrl.isCreating" role="form" name="createForm" class="pad-top-20 create-form" ng-submit="mainCtrl.createBookmark(newBookmark)" novalidate>
 		<div class="form-group">
 			<label for="new-bookmark-title">Bookmark Title</label>
-			<input type="text" class="form-control" id="new-bookmark-title" ng-model="newBookmark.title" placeholder="Enter Bookmark Title">
+			<input type="text" name="newBookmarkTitle" class="form-control" id="new-bookmark-title" ng-model="newBookmark.title" placeholder="Enter Bookmark Title" ng-required="mainCtrl.isCreating">
+			<p class="error" ng-show="mainCtrl.formInvalid && createForm.newBookmarkTitle.$error.required">Bookmark Title is required.</p>
 		</div>
 		<div class="form-group">
 			<label for="new-bookmark-url">Bookmark URL</label>
-			<input type="text" class="form-control" id="new-bookmark-url" ng-model="newBookmark.url" placeholder="Enter Bookmark URL">
+			<input type="url" name="newBookmarkUrl" class="form-control" id="new-bookmark-url" ng-model="newBookmark.url" placeholder="Enter Bookmark URL" ng-required="mainCtrl.isCreating">
+			<p class="error" ng-show="mainCtrl.formInvalid && createForm.newBookmarkUrl.$error.required">Bookmark URL is required.</p>
+			<p class="error" ng-show="mainCtrl.formInvalid && createForm.newBookmarkUrl.$invalid">Bookmark URL is invalid.</p>
 		</div>
 		<button type="submit" class="btn btn-success">Create</button>
 		<button type="button" class="btn btn-secondary float-right" ng-click="mainCtrl.cancelCreating()">Cancel</button>
@@ -31,14 +34,14 @@
 <!-- Edit bookmark -->
 <div ng-if="mainCtrl.shouldShowEditing()" class="bookmark-details">
 	<h2>Editing {{ mainCtrl.editedBookmark.title }}</h2>
-	<form class="pad-top-10 edit-form" role="form" ng-submit="mainCtrl.updateBookmark(mainCtrl.editedBookmark)" novalidate>
+	<form class="pad-top-10 edit-form" role="form" name="updateForm" ng-submit="mainCtrl.updateBookmark(mainCtrl.editedBookmark)" novalidate>
 		<div class="form-group">
 			<label for="edited-bookmark-title">Bookmark Title</label>
-			<input type="text" class="form-control" id="edited-bookmark-title" ng-model="mainCtrl.editedBookmark.title" placeholder="Bookmark Title">
+			<input type="text" name="editedBookmarkTitle" class="form-control" id="edited-bookmark-title" ng-model="mainCtrl.editedBookmark.title" placeholder="Bookmark Title">
 		</div>
 		<div class="form-group">
 			<label for="edited-bookmark-url">Bookmark URL</label>
-			<input type="text" class="form-control" id="edited-bookmark-url" ng-model="mainCtrl.editedBookmark.url" placeholder="Bookmark URL">
+			<input type="url" name="editedBookmarkUrl" class="form-control" id="edited-bookmark-url" ng-model="mainCtrl.editedBookmark.url" placeholder="Bookmark URL">
 		</div>
 		<button type="submit" class="btn btn-success">Save</button>
 		<button type="button" class="btn btn-secondary float-right" ng-click="mainCtrl.cancelEditing()">Cancel</button>
