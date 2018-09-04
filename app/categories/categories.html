@@ -1,6 +1,16 @@
 <a href="#" ng-click="mainCtrl.setCurrentCategory(null)">
 	<img class="logo img-thumbnail" src="http://via.placeholder.com/200x100?text=Logo" alt="Logo Image">
 </a>
-<nav class="nav flex-column">
-	<a ng-repeat="category in mainCtrl.categories" ng-click="mainCtrl.setCurrentCategory(category)" class="category-name nav-link" ng-class="{'active': mainCtrl.isCurrentCategory(category)}" href="">{{ category.name }}</a>
+<nav class="nav flex-column" role="navigation">
+	<div class="menu-toggle">
+		<input type="checkbox" ng-model="mainCtrl.menuExpanded" ng-change="mainCtrl.toggleMenuExpanded()" />
+		<!-- hamburger menu icon -->
+		<span></span>
+	    <span></span>
+	    <span></span>
+
+	    <ul class="menu">
+	    	<a ng-repeat="category in mainCtrl.categories" ng-click="mainCtrl.setCurrentCategory(category)" class="category-name nav-link" ng-class="{'active': mainCtrl.isCurrentCategory(category)}" href="">{{ category.name }}</a>
+	    </ul>
+	</div>
 </nav>
