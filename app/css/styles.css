@@ -20,17 +20,25 @@
 /* Start categories */
 .nav-container {
 	background-color: #003d7f;
-	min-height: 100vh;
+	height: 160px;
+	transition: height 0.5s ease;
+}
+
+.nav-container.expanded {
+	height: 280px;
 }
 
 .logo {
 	margin-top: 20px;
+	position: relative;
+	left: 20vw;
 }
 
 .category-name {
 	color: #fff;
 	font-size: 1.2em;
 	padding-left: 0px;
+	text-decoration: none;
 }
 
 .category-name:first-of-type {
@@ -41,6 +49,92 @@
 .category-name.active {
 	color: #4ca3ff;
 }
+
+/* Start hamburger/slide out menu */
+/* TODO: Adjust mobile behaviour so it is proper responsive */
+.menu-toggle {
+	display: block;
+	position: relative;
+	top: -110px;
+	left: 0px;
+	z-index: 1;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.menu-toggle input {
+	display: block;
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	top: -7px;
+	left: -5px;
+	cursor: pointer;
+	opacity: 0; /* hide this */
+	z-index: 2; /* and place it over the hamburger */
+	-webkit-touch-callout: none;
+}
+
+.menu-toggle span {
+	display: block;
+	width: 33px;
+	height: 4px;
+	margin-bottom: 5px;
+	position: relative;
+	background: #fff;
+	border-radius: 3px;
+	z-index: 1;
+	transform-origin: 4px 0px;
+	transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              opacity 0.55s ease;
+}
+
+.menu-toggle span:first-child {
+	transform-origin: 0% 0%;
+}
+
+.menu-toggle span:nth-last-child(2) {
+	transform-origin: 0% 100%;
+}
+
+/* Transform hamburger icon into "x" when menu is open */
+.menu-toggle input:checked ~ span {
+	opacity: 1;
+	transform: rotate(45deg) translate(-2px, -1px);
+}
+
+/* Hide middle layer of hamburger */
+.menu-toggle input:checked ~ span:nth-last-child(3) {
+	opacity: 0;
+  	transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+/* Last layer should be transformed in opposite direction */
+.menu-toggle input:checked ~ span:nth-last-child(2) {
+	transform: rotate(-45deg) translate(0, -1px);
+}
+
+.menu {
+	position: absolute;
+	width: 300px;
+	margin: -40px 0 0 20px;
+	padding: 50px;
+	padding-top: 125px;
+	background: transparent;
+	list-style-type: none;
+	-webkit-font-smoothing: antialiased;
+	transform-origin: 0% 0%;
+	transform: translate(-100%, 0);
+	transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+}
+
+.menu-toggle input:checked ~ ul
+{
+  transform: none;
+}
+/* End hamburger/slide out menu */
+
 /* End categories */
 
 /* Start bookmarks */
@@ -72,4 +166,117 @@
 
 div.active {
 	font-weight: 800;
+}
+
+/***********************/
+/* Start media queries */
+/***********************/
+@media screen and (min-device-width: 568px) {
+	.nav-container {
+		min-height: 100vh;
+	}
+}
+
+@media screen and (width: 731px) and (orientation: landscape), screen and (max-device-width: 736px) and (orientation: landscape) {
+	.nav-container {
+		min-height: 160px;
+	}
+
+	.category-name {
+		padding-left: 66px;
+	}
+}
+
+@media screen and (min-width:768px) {
+	.logo {
+		position: relative;
+		left: 50px;
+		width: 100px;
+		height: 50px;
+	}
+
+	.menu-toggle {
+		top: -48px;
+	}
+
+	.category-name {
+		position: relative;
+		left: -30px;
+		top: -60px;
+	}
+}
+
+@media screen and (max-device-width: 667px) and (orientation: landscape) {
+	.nav-container {
+		min-height: 160px;
+	}
+
+	.category-name {
+		padding-left: 54px;
+	}
+}
+
+@media screen and (min-device-width: 360px) and (max-device-width: 640px) and (orientation: portrait) {
+	.menu {
+		margin: -40px 0 0 22px;
+	}
+}
+
+@media screen and (min-device-width: 360px) and (max-device-width: 640px) and (orientation: landscape) {
+	.nav-container {
+		min-height: 160px;
+	}
+
+	.category-name {
+		padding-left: 46px;
+	}
+}
+
+@media screen and (width: 320px) and (max-width: 568px) and (orientation: portrait) {
+	.menu {
+		margin: -40px 0 0 0px;
+	}
+
+	.category-name {
+		padding-left: 14px;
+	}
+}
+
+@media screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
+	.category-name {
+		padding-left: 34px;
+	}
+}
+
+@media screen and (width: 375px) and (orientation: portrait), screen and (width: 414px) and (orientation: portrait) {
+	.menu {
+		margin: -40px 0 0 24px;
+	}
+}
+
+@media screen and (min-device-width: 411px) {
+	.menu {
+		margin: -40px 0 0 32px;
+	}	
+}
+
+@media screen and (min-width: 1000px) {
+	.logo {
+		position: relative;
+		left: 60px;
+		width: 200px;
+		height: 100px;
+	}
+
+	.menu-toggle {
+		top: -98px;
+	}
+
+	.menu {
+		margin-top: 20px; 
+	}
+
+	.category-name {
+		padding-left: 6px;
+	}
 }
