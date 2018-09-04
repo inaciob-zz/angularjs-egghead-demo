@@ -18,6 +18,8 @@
 		vm.bookmarks = [];
 		vm.currentCategory = null;
 		vm.editedBookmark = null;
+		vm.menuExpanded = false;
+		vm.toggleMenuExpanded = toggleMenuExpanded;
 		// Create and Edit states
 		vm.isCreating = false;
 		vm.isEditing = false;
@@ -53,6 +55,10 @@
 			});
 		}
 		init();
+
+		function toggleMenuExpanded() {
+			return vm.menuExpanded;
+		}
 
 		var setCurrentCategory = (category) => {
 			vm.currentCategory = category;
