@@ -1,8 +1,7 @@
 (function() {
 	'use strict';
 
-	angular.module('Eggly', [
-	])
+	angular.module('Eggly', ['angular-toArrayFilter'])
 	.controller('MainCtrl', function ($scope, $timeout, $window) {
 		var vm = this;
 
@@ -30,7 +29,7 @@
 		vm.cancelEditing = cancelEditing;
 		vm.shouldShowCreating = shouldShowCreating;
 		vm.shouldShowEditing = shouldShowEditing;
-		vm.reloadChanges = reloadChanges;
+		vm.displayChanges = displayChanges;
 		vm.resetCreateForm = resetCreateForm;
 		vm.createBookmark = createBookmark;
 		vm.setEditedBookmark = setEditedBookmark;
@@ -113,11 +112,23 @@
 		vm.setCurrentCategory = setCurrentCategory;
 		vm.isCurrentCategory = isCurrentCategory;
 
-		// TODO: Remove reloads to see changes triggered outside of Angular
-		function reloadChanges() {
+		function displayChanges() {
 			$timeout(function(){ 
-		    	$window.location.reload();
-			});
+		    	var collections = ["bookmarks"];
+
+				angular.forEach(collections, function(key) {
+					database.collection(key).get().then((querySnapshot) => {
+						querySnapshot.forEach((doc) => {
+							// Make sure no duplicates exist before inserting next document
+							if(!angular.toJson(vm[key]).includes(angular.toJson(doc.data()))) {
+								vm[key].push(doc.data());
+							}						
+	    				});
+
+	    				$scope.$apply();
+					});
+				});
+			}, 0);
 		}
 
 		/**********/
@@ -142,7 +153,7 @@
 					})
 					.then(function() {
 					    console.log("Document successfully written!");
-					    reloadChanges();
+					    displayChanges();
 					})
 					.catch(function(error) {
 					    console.error("Error writing document: ", error);
@@ -177,7 +188,7 @@
 			})
 			.then(function() {
 			    console.log("Document successfully updated!");
-			    reloadChanges();
+			    displayChanges();
 			})
 			.catch(function(error) {
 			    // The document probably doesn't exist.
@@ -197,7 +208,7 @@
 
 			database.collection("bookmarks").doc("" + (prevDocId + 1) + "").delete().then(function() {
 			    console.log("Document successfully deleted!");
-			    reloadChanges();
+			    displayChanges();
 			}).catch(function(error) {
 			    console.error("Error removing document: ", error);
 			});
