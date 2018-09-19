@@ -1,2 +1,2 @@
 # angularjs-egghead-demo
-AngularJS demo based on egghead.io lessons
+AngularJS bookmark manager demo based on egghead.io lessons
