@@ -1,4 +1,4 @@
-<div ng-class="{'active': mainCtrl.isSelectedBookmark(bookmark.title)}" class="bookmark" ng-repeat="bookmark in mainCtrl.bookmarks | filter: {category: mainCtrl.currentCategory.name}">
+<div ng-show="mainCtrl.currentCategory.name === bookmark.category || (!mainCtrl.currentCategory.name)" ng-class="{'active': mainCtrl.isSelectedBookmark(bookmark.title)}" class="bookmark" data-index="{{$index}}" ng-repeat="bookmark in mainCtrl.bookmarks track by $index | toArray">
 	<button type="button" ng-click="mainCtrl.setEditedBookmark(bookmark); mainCtrl.startEditing()" class="btn btn-link">
 		<span class="fa fa-pencil"></span>
 	</button>
